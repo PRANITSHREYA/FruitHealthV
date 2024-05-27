@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Upload Image";
+    bool isLoading = false;
+}
+
+<style>
+    .btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    .loading {
+        cursor: wait;
+        pointer-events: none; /* Disable pointer events */
+    }
+
+        .loading .normal-text {
+            display: none;
+        }
+
+        .loading .loading-text {
+            display: inline;
+        }
+
+    .loading-text {
+        display: none;
+    }
+</style>
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Image" asp-action="ImageUpload" method="post" enctype="multipart/form-data" onsubmit="handleFormSubmission(event)">
+
+    <div class="form-group">
+        <label for="image">Choose Image:</label>
+        <input type="file" name="image" id="image" class="form-control-file" accept="images/*" required>
+    </div>
+
+    <button type="submit" id="submitButton" class="btn @(isLoading ? "loading" : "")">
+        <span class="normal-text">Upload & Predict</span>
+        <span class="loading-text">Loading...</span>
+    </button>
+
+    <div>
+        @if (!string.IsNullOrEmpty(ViewBag.ImagePath))
+        {
+            <img src="@ViewBag.ImagePath" asp-append-version="true" alt="Uploaded Image" height=500 width=500 />
+        }
+        else
+        {
+            <p>No image uploaded.</p>
+        }
+
+        @if (ViewBag.PredictionResult != null)
+        {
+            <div>
+                <h3>Prediction Result:</h3>
+                <p>@ViewBag.PredictionResult</p>
+            </div>
+
+            <div>
+                <h3>Score Result:</h3>
+                <p>@ViewBag.Score</p>
+            </div>
+            <button type="submit" formnovalidate class="btn btn-primary" name="submitButton" value="save">Save</button>
+        }
+        else
+        {
+            <p>No prediction result available.</p>
+        }
+    </div>
+</form>
+
+<script>
+    function handleFormSubmission(event) {
+        // Add loading class to button and disable it
+        var button = document.getElementById("submitButton");
+        button.classList.add("loading");
+        button.disabled = true;
+
+        // Simulate loading process (e.g., AJAX request)
+        setTimeout(function () {
+            // Reset button state after loading completes
+            button.classList.remove("loading");
+            button.disabled = false;
+        }, 15000); // Example: 2 seconds delay, replace with your actual loading process duration
+    }
+</script>

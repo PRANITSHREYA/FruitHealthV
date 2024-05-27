@@ -1,0 +1,55 @@
+﻿@model List<FruitHealth.Models.FruitHealthPredictionResult>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predicted Report</title>
+    <style>
+        body {
+            background-color: #ffffff; /* white background */
+            font-family: Arial, sans-serif; /* Set font family */
+            margin: 20px; /* Add margin to body */
+        }
+        h1 {
+            color: #333333; /* Dark gray text color */
+        }
+        table {
+            width: 100%;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            margin-top: 20px; /* Add margin above the table */
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2; /* Light gray background for table header */
+        }
+    </style>
+</head>
+<body>
+    <h1>Predicted Report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Predicted Label</th>
+                <th>Score</th>
+                <th>Image File Path</th>
+                <th>Predicted Date Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var FruitHealthPredictionResult in Model)
+            {
+                <tr>
+                    <td>@FruitHealthPredictionResult.PredictedLabel</td>
+                    <td>@FruitHealthPredictionResult.Score</td>
+                    <td>@FruitHealthPredictionResult.ImageFilePath</td>
+                    <td>@FruitHealthPredictionResult.PredictedDateTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
